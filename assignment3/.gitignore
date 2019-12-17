@@ -2,7 +2,8 @@
 *.pyc
 .env/*
 */.ipynb_checkpoints/*
-*TensorFlow.ipynb
+*-TensorFlow.ipynb
+*_TF.ipynb
 
 # gitignore the built release.
 assignment3/*
