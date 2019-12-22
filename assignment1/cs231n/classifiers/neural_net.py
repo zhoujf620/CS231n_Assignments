@@ -99,10 +99,10 @@ class TwoLayerNet(object):
         #############################################################################
         # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
-        shift_scors = scores - np.max(scores, axis=1).reshape(-1, 1)
-        softmax_output = np.exp(shift_scors) / np.sum(np.exp(shift_scors), axis=1).reshape(-1, 1)
+        shift_scores = scores - np.max(scores, axis=1).reshape(-1, 1)
+        softmax_output = np.exp(shift_scores) / np.sum(np.exp(shift_scores), axis=1).reshape(-1, 1)
         loss = -np.sum(np.log(softmax_output[range(N), list(y)]))
-        loss = loss / N + 0.5 * reg * (np.sum(W1 * W1) + np.sum(W2 * W2))
+        loss = loss / N + reg * (np.sum(W1 * W1) + np.sum(W2 * W2))
 
         # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
@@ -118,12 +118,12 @@ class TwoLayerNet(object):
         d_score = softmax_output.copy()
         d_score[range(N), list(y)] -= 1
         d_score /= N 
-        grads['W2'] = h_output.T.dot(d_score) + reg * W2 
+        grads['W2'] = h_output.T.dot(d_score) + 2 * reg * W2 
         grads['b2'] = np.sum(d_score, axis=0)
 
         dh = d_score.dot(W2.T)
         dh_ReLU = (h_output > 0) * dh 
-        grads['W1'] = X.T.dot(dh_ReLU) + reg * W1
+        grads['W1'] = X.T.dot(dh_ReLU) + 2 * reg * W1
         grads['b1'] = np.sum(dh_ReLU, axis=0)
 
         # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
